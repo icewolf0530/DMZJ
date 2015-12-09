@@ -118,7 +118,7 @@
         [manager2.requestSerializer setValue:@"http://images.dmzj.com/" forHTTPHeaderField:@"Referer"];
         [manager GET:url parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
             UIImageView *imgV =[[UIImageView alloc]initWithFrame:self.view.frame];
-            NSLog(@"333333");
+            NSLog(@"333");
             UIImage *image = [UIImage imageWithData:responseObject];
             imgV.image =image;
             [arrImg addObject:image];
