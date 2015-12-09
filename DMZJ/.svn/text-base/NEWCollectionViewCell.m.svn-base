@@ -1,0 +1,37 @@
+//
+//  NEWCollectionViewCell.m
+//  DMZJ
+//
+//  Created by 谅 陈 on 15/11/27.
+//  Copyright © 2015年 wolf. All rights reserved.
+//
+
+#import "NEWCollectionViewCell.h"
+
+@implementation NEWCollectionViewCell
+
+-(id)initWithFrame:(CGRect)frame
+{
+    if (self =[super initWithFrame:frame]) {
+        self.coverImgView =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, self.frame.size.width, self.frame.size.height-20)];
+        
+        
+        self.lastUpdate =[[UILabel alloc]initWithFrame:CGRectMake(self.frame.size.width-60, self.frame.size.height-40, 60, 20)];
+        
+        self.title =[[UILabel alloc]initWithFrame:CGRectMake(0, self.frame.size.height-20, self.frame.size.width, 20)];
+        
+        model *myModel =[[model alloc]init];
+        
+        epiDetail *epiModel =  myModel.MyNew.episode[0];
+        
+        NSString *imgUrl =[epiModel.cover stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        
+        [self.coverImgView setImageWithURL:[NSURL URLWithString:imgUrl]];
+        self.lastUpdate.text =epiModel.last_update_chapter_name;
+        self.title.text =epiModel.title;
+            }
+    return self;
+}
+
+
+@end

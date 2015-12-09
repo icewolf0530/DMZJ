@@ -1,0 +1,21 @@
+//
+//  NEWCollectionViewCell.h
+//  DMZJ
+//
+//  Created by 谅 陈 on 15/11/27.
+//  Copyright © 2015年 wolf. All rights reserved.
+//
+
+#import <UIKit/UIKit.h>
+
+@interface NEWCollectionViewCell : UICollectionViewCell
+
+@property(nonatomic,assign)NSInteger nameID;
+@property(nonatomic,strong)UIImageView *coverImgView;
+@property(nonatomic,strong)UILabel *title;
+@property(nonatomic,strong)UILabel *lastUpdate;
+
+
+
+
+@end

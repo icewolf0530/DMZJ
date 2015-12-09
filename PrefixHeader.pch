@@ -1,0 +1,31 @@
+//
+//  PrefixHeader.pch
+//  DMZJ
+//
+//  Created by 谅 陈 on 15/11/25.
+//  Copyright (c) 2015年 wolf. All rights reserved.
+//
+
+#ifndef DMZJ_PrefixHeader_pch
+#define DMZJ_PrefixHeader_pch
+#import "NEWheadlineCollectionReusableView.h"
+#import "SearchViewController.h"
+#import "model.h"
+#import "AFNetworking.h"
+#import "UIImageView+WebCache.h"
+#import "UIImageView+AFNetworking.h"
+#import "detailsViewController.h"
+#import "MJExtension.h"
+#import "MJRefresh.h"
+#import "NEWCollectionViewController.h"
+#import "NEWCollectionViewCell.h"
+#import "detailsModel.h"
+#import "RecommendViewController.h"
+#import "ReaderViewController.h"
+#import "readModel.h"
+#import "aboutUsViewController.h"
+#import "chooseModel.h"
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#endif

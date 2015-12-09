@@ -1,0 +1,56 @@
+//
+//  DowlLoadViewController.m
+//  DMZJ
+//
+//  Created by 谅 陈 on 15/11/23.
+//  Copyright © 2015年 wolf. All rights reserved.
+//
+
+#import "DowlLoadViewController.h"
+#import "SearchViewController.h"
+@interface DowlLoadViewController ()
+
+@end
+
+@implementation DowlLoadViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view from its nib.
+    UILabel *lab =[[UILabel alloc]init];
+    lab.text =@"下载";
+    lab.frame =CGRectMake(0, 0, 30,30);
+    lab.textColor =[UIColor whiteColor];
+    self.navigationItem.titleView=lab;
+    
+    UIImage *img =[UIImage imageNamed:@"recommendBtn6"];
+    img = [img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+    UIBarButtonItem *btn = [[UIBarButtonItem alloc] initWithImage:[img imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal] style:UIBarButtonItemStylePlain target:self action:@selector(search)];
+    self.navigationItem.rightBarButtonItem =btn;}
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+-(void)search
+{
+    SearchViewController *svc =[[SearchViewController alloc]init];
+    [self.navigationController pushViewController:svc animated:YES];
+}
+-(void)viewWillAppear:(BOOL)animated
+{
+    self.navigationController.navigationBarHidden = NO;
+
+}
+/*
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+}
+*/
+
+@end
