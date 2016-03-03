@@ -159,14 +159,14 @@
     [markBtn setTitle:@"添加订阅" forState:UIControlStateNormal];
     
     [markBtn addTarget:self action:@selector(markClick) forControlEvents:UIControlEventTouchUpInside];
-    [ScrV addSubview:markBtn];
+//    [ScrV addSubview:markBtn];
     
     UIButton *readBtn =[UIButton buttonWithType:UIButtonTypeCustom];
     [readBtn setFrame:CGRectMake(240*self.view.frame.size.width/375, 100, 110*self.view.frame.size.width/375, 35)];
     [readBtn setBackgroundImage:[UIImage imageNamed:@"pub_downloadSortBg"] forState:UIControlStateNormal];
     [readBtn setTitle:@"开始阅读" forState:UIControlStateNormal];
     [readBtn addTarget:self action:@selector(readClick) forControlEvents:UIControlEventTouchUpInside];
-    [ScrV addSubview:readBtn];
+//    [ScrV addSubview:readBtn];
     
     description =[[UILabel alloc]initWithFrame:CGRectMake(15, 140, (ScrV.frame.size.width-10)*self.view.frame.size.width/375, 70)];
     description.numberOfLines =0;
@@ -224,6 +224,7 @@
             detailscharteView.charpte_btn.tag =[listModel.ID integerValue];
             
             [ScrV addSubview:detailscharteView];
+            
         }
 //
             ScrV.contentSize=CGSizeMake(self.view.bounds.size.width, 250+detModel.data.list.count/3*30);
@@ -243,6 +244,7 @@
     NSLog(@"%ld",sender.tag);
     rvc.ID =_ID;
     NSLog(@"%ld",_ID);
+   
     [self.navigationController pushViewController:rvc animated:YES];
 }
 - (void)didReceiveMemoryWarning {

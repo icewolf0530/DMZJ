@@ -42,7 +42,12 @@
     [searchBtn addTarget:self action:@selector(searchClick) forControlEvents:UIControlEventTouchUpInside];
     [navigationV addSubview:searchBtn];
     
-   
+    UILabel *labtext =[[UILabel alloc]initWithFrame:CGRectMake(100, 100, 200, 200)];
+    labtext.center =self.view.center;
+    labtext.text =@"下载版权正在申请中\n敬请期待!O(∩_∩)O哈哈~";
+    labtext.textAlignment=NSTextAlignmentCenter;
+    labtext.numberOfLines =0;
+    [self.view addSubview:labtext];
 }
 
 

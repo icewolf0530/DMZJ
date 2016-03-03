@@ -24,6 +24,7 @@
     navigationV.userInteractionEnabled =YES;
     [self.view addSubview:navigationV];
     
+    [TabV reloadData];
     
     UILabel *lab =[[UILabel alloc]init];
     lab.text =@"更多";
@@ -59,25 +60,19 @@
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     UITableViewCell *cell=[[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"tabCell"];
-    if (indexPath.section ==0&&indexPath.row ==0) {
-        cell.textLabel.text =@"设置";
-    }
-    if(indexPath.section ==1)
+//    if (indexPath.section ==0&&indexPath.row ==0) {
+////        cell.textLabel.text =@"设置";
+//    }
+    if(indexPath.section ==0)
     {
+        
         if(indexPath.row ==0)
         {
-        cell.textLabel.text =@"意见反馈";
+        cell.textLabel.text =[NSString stringWithFormat:@"清除在线缓存%.1fM",[self filePath]];
         }
-        if(indexPath.row ==1)
-        {
-        cell.textLabel.text =@"清除在线缓存(%d)";
-        }
-        if(indexPath.row ==2)
-        {
-        cell.textLabel.text =@"清除浏览记录";
-        }
+        
     }
-    if(indexPath.section ==2)
+    if(indexPath.section ==1)
     {
     cell.textLabel.text =@"关于我们";
     }
@@ -88,30 +83,33 @@
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 3;
+    return 2;
     
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     
-    if (indexPath.section ==0&&indexPath.row ==0)
-    {
-        
-    }
-    if(indexPath.section ==1)
+//    if (indexPath.section ==0&&indexPath.row ==0)
+//    {
+//        
+//    }
+    if(indexPath.section ==0)
     {
         if(indexPath.row ==0)
         {
+            [self clearFile];
         }
-        if(indexPath.row ==1)
-        {
-        }
-        if(indexPath.row ==2)
-        {
-        }
+//        if(indexPath.row ==1)
+//        {
+//            
+//        }
+//        if(indexPath.row ==2)
+//        {
+//            [TabV reloadData];
+//        }
     }
-    if(indexPath.section ==2)
+    if(indexPath.section ==1)
     {
         aboutUsViewController *avc =[[aboutUsViewController alloc]init];
         [self.navigationController pushViewController:avc animated:YES];
@@ -121,11 +119,11 @@
 
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+//    if (section ==0) {
+//        return 1;
+//    }
     if (section ==0) {
         return 1;
-    }
-    if (section ==1) {
-        return 3;
     }
     else {
         return 1;
@@ -133,6 +131,100 @@
 
 }
 
+
+
+-( float )filePath
+{
+    
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    
+    return [ self folderSizeAtPath :cachPath];
+    
+}
+//1:首先我们计算一下 单个文件的大小
+
+- ( long long ) fileSizeAtPath:( NSString *) filePath{
+    
+    NSFileManager * manager = [ NSFileManager defaultManager ];
+    
+    if ([manager fileExistsAtPath :filePath]){
+        
+        return [[manager attributesOfItemAtPath :filePath error : nil ] fileSize ];
+    }
+    
+    return 0 ;
+    
+}
+//2:遍历文件夹获得文件夹大小，返回多少 M（提示：你可以在工程界设置（)m）
+
+- ( float ) folderSizeAtPath:( NSString *) folderPath{
+    
+    NSFileManager * manager = [ NSFileManager defaultManager ];
+    
+    if (![manager fileExistsAtPath :folderPath]) return 0 ;
+    
+    NSEnumerator *childFilesEnumerator = [[manager subpathsAtPath :folderPath] objectEnumerator ];
+    
+    NSString * fileName;
+    
+    long long folderSize = 0 ;
+    
+    while ((fileName = [childFilesEnumerator nextObject ]) != nil ){
+        
+        NSString * fileAbsolutePath = [folderPath stringByAppendingPathComponent :fileName];
+        
+        folderSize += [ self fileSizeAtPath :fileAbsolutePath];
+        
+    }
+    
+    return folderSize/( 1024.0 * 1024.0 );
+    
+}
+// 清理缓存
+
+- (void)clearFile
+{
+
+    
+    NSString * cachPath = [ NSSearchPathForDirectoriesInDomains ( NSCachesDirectory , NSUserDomainMask , YES ) firstObject ];
+    
+    NSArray * files = [[ NSFileManager defaultManager ] subpathsAtPath :cachPath];
+    
+    NSLog ( @"cachpath = %@" , cachPath);
+    
+    for ( NSString * p in files) {
+        
+        NSError * error = nil ;
+        
+        NSString * path = [cachPath stringByAppendingPathComponent :p];
+        
+        if ([[ NSFileManager defaultManager ] fileExistsAtPath :path]) {
+            
+            [[ NSFileManager defaultManager ] removeItemAtPath :path error :&error];
+            
+        }
+        
+    }
+    
+    [ self performSelectorOnMainThread : @selector (clearCachSuccess) withObject : nil waitUntilDone : YES ];
+    
+}
+
+- (void)clearCachSuccess
+{
+    UIAlertView *Alv =[[UIAlertView alloc]initWithTitle:@"清理成功" message:@"缓存已清理" delegate:self cancelButtonTitle:@"ok" otherButtonTitles:nil, nil];
+    
+    [Alv show];
+    NSLog ( @" 清理成功 " );
+    
+    [TabV reloadData];
+    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [TabV reloadData];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

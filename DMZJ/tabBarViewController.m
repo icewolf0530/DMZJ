@@ -29,7 +29,7 @@
 {
     NSArray *name =@[@"pub_classify",@"pub_recommend",@"pub_favouriate",@"pub_download",@"pub_more"];
     
-    NSArray *title =@[@"分类",@"推荐",@"订阅",@"下载",@"更多"];
+    NSArray *title =@[@"分类",@"推荐",@"快讯",@"下载",@"更多"];
     int i =0;
     
     
@@ -48,9 +48,11 @@
         
         //渲染后的图片添加到tabbar Item
         vc.tabBarItem =[[UITabBarItem alloc]initWithTitle:title[i] image:[UIImage imageNamed:itemImageName] selectedImage:[UIImage imageNamed:itemSelectedName]];
+        
         i++;
     }
     self.tabBar.tintColor =[UIColor colorWithRed:0.290 green:0.786 blue:1.000 alpha:1.000];
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

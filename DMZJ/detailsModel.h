@@ -27,7 +27,7 @@
 
 @interface info : NSObject
 
-@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, assign) NSInteger ID;
 @property (nonatomic, copy) NSString *Description;
 @property (nonatomic, copy) NSString *zone;
 @property (nonatomic, copy) NSString *subtitle;

@@ -65,7 +65,7 @@
     navigationV.userInteractionEnabled =YES;
     [pushView addSubview:navigationV];
     
-    
+    NSArray *arr =@[@"54",@"55",@"56",@"57",@"58",@"59",@"510",@"511",@"512",@"513",@"514",@"516"];
     UILabel *title =[[UILabel alloc]init];
     title.text =@"分类";
     title.frame =CGRectMake(self.view.frame.size.width/2-50, 22, 100, 44);
@@ -78,9 +78,9 @@
     for (int i =0; i<12; i++) {
         UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
         [btn addTarget:self action:@selector(ClassViewClick:) forControlEvents:UIControlEventTouchUpInside];
-        btn.tag =54+i;
+        btn.tag =[arr[i] integerValue];
         btn.frame =CGRectMake(20+self.view.frame.size.width/3*(i%3), 64+15+(self.view.frame.size.width/3)*(i/3), self.view.frame.size.width/3-35, self.view.frame.size.width/3-35);
-        btn.backgroundColor =[UIColor colorWithRed:0.05*i green:0.05*i blue:0.05*i alpha:i];
+//        btn.backgroundColor =[UIColor colorWithRed:0.05*i green:0.05*i blue:0.05*i alpha:i];
         UILabel *nameLab =[[UILabel alloc]initWithFrame:CGRectMake(btn.frame.origin.x,btn.frame.origin.y+btn.frame.size.height+5,btn.frame.size.width,20)];
         nameLab.text =[NSString stringWithFormat:@"%@",switchArr[i]];
         nameLab.textColor =[UIColor orangeColor];

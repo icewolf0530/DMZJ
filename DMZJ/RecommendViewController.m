@@ -130,9 +130,9 @@
 
 -(void)configUI
 {
-    ScrV =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 700)];
+    ScrV =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 600)];
     ScrV.backgroundColor =[UIColor colorWithWhite:0.927 alpha:1.000];
-    ScrV.contentSize =CGSizeMake(self.view.bounds.size.width*5, 700);
+    ScrV.contentSize =CGSizeMake(self.view.bounds.size.width*5, 600);
     ScrV.bounces =NO;
     ScrV.directionalLockEnabled =YES;
     ScrV.showsVerticalScrollIndicator = NO;
@@ -171,13 +171,17 @@
     NEWheadlineCollectionReusableView * headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:@"headCell" forIndexPath:indexPath] ;
     headerView.userInteractionEnabled =YES;
     if (collectionView.tag == 10000) {
-        headerView.Id =mymodel.index.headlines.Id;
+//        headerView.Id =mymodel.index.headlines.Id ;
         NSString *img =[mymodel.index.headlines.cover stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [headerView.headView setImageWithURL:[NSURL URLWithString:img]];
         headerView.summary.text=[NSString stringWithFormat:@"    <%@> %@",mymodel.index.headlines.title,mymodel.index.headlines.subtitle];
-        
-        UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
-        [headerView addGestureRecognizer:tap];
+        UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame =headerView.frame;
+
+        btn.tag =mymodel.index.headlines.Id;
+        [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+        [headerView addSubview:btn];
+
         return headerView ;
         
     }else if (collectionView.tag == 10001)
@@ -187,9 +191,12 @@
         
         [headerView.headView setImageWithURL:[NSURL URLWithString:img]];
         headerView.summary.text=[NSString stringWithFormat:@"    <%@> %@",mymodel.MyNew.headlines.title,mymodel.MyNew.headlines.subtitle];
-        
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
-            [headerView addGestureRecognizer:tap];
+            UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame =headerView.frame;
+            
+            btn.tag =mymodel.MyNew.headlines.Id;
+            [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+            [headerView addSubview:btn];
             return headerView ;
         }else if (collectionView.tag == 10002)
         {
@@ -197,8 +204,12 @@
             NSString *img =[mymodel.lianzai.headlines.cover stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             [headerView.headView setImageWithURL:[NSURL URLWithString:img]];
             headerView.summary.text=[NSString stringWithFormat:@"    <%@> %@",mymodel.lianzai.headlines.title,mymodel.lianzai.headlines.subtitle];
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
-            [headerView addGestureRecognizer:tap];
+            UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame =headerView.frame;
+            
+            btn.tag =mymodel.lianzai.headlines.Id;
+            [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+            [headerView addSubview:btn];
             return headerView ;
         }
         else if (collectionView.tag == 10003)
@@ -207,8 +218,12 @@
             NSString *img =[mymodel.wanjie.headlines.cover stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             [headerView.headView setImageWithURL:[NSURL URLWithString:img]];
             headerView.summary.text=[NSString stringWithFormat:@"    <%@> %@",mymodel.wanjie.headlines.title,mymodel.wanjie.headlines.subtitle];
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
-            [headerView addGestureRecognizer:tap];
+            UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame =headerView.frame;
+            
+            btn.tag =mymodel.wanjie.headlines.Id;
+            [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+            [headerView addSubview:btn];
             return headerView ;
         }
         else
@@ -217,8 +232,12 @@
             NSString *img =[mymodel.yuanchuang.headlines.cover stringByReplacingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
             [headerView.headView setImageWithURL:[NSURL URLWithString:img]];
             headerView.summary.text=[NSString stringWithFormat:@"    <%@> %@",mymodel.yuanchuang.headlines.title,mymodel.yuanchuang.headlines.subtitle];
-            UITapGestureRecognizer * tap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(click:)];
-            [headerView addGestureRecognizer:tap];
+            UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame =headerView.frame;
+            
+            btn.tag =mymodel.yuanchuang.headlines.Id;
+            [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+            [headerView addSubview:btn];
             return headerView ;
         }
 }
@@ -226,7 +245,9 @@
 -(void)click:(NEWheadlineCollectionReusableView *)sender
 {
     detailsViewController *dvc =[[detailsViewController alloc]init];
-//    dvc.ID =sender.Id;
+    
+    dvc.ID =sender.tag;
+    
     [self.navigationController pushViewController:dvc animated:YES];
 }
 
@@ -237,7 +258,22 @@
 //
 -(NSInteger )collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 99;
+    if (collectionView.tag ==10000) {
+        return mymodel.index.episode.count;
+    }
+    if (collectionView.tag ==10001) {
+        return mymodel.MyNew.episode.count;
+    }
+    if (collectionView.tag ==10002) {
+        return mymodel.lianzai.episode.count;
+    }
+    if (collectionView.tag ==10003) {
+        return mymodel.wanjie.episode.count;
+    }
+    if (collectionView.tag ==10004) {
+        return mymodel.yuanchuang.episode.count;
+    }
+    return 1;
 }
 //
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -317,33 +353,33 @@
     if (collectionView.tag == 10000) {
         epiDetail * epiModel1 = _indexList[indexPath.row];
         
-        dvc.ID = [epiModel1.Id integerValue];
-        NSLog(@"recID%ld",[epiModel1.Id integerValue]);
+        dvc.ID = epiModel1.Id ;
+        NSLog(@"recID%ld",epiModel1.Id );
         [self.navigationController pushViewController:dvc animated:YES];
     }
     else
     if (collectionView.tag == 10001) {
         epiDetail * epiModel1 = _myNewList[indexPath.row];
         
-        dvc.ID = [epiModel1.Id integerValue];
+        dvc.ID = epiModel1.Id ;
         [self.navigationController pushViewController:dvc animated:YES];
     }else
     if (collectionView.tag == 10002) {
         epiDetail * epiModel1 = _lianzaiList[indexPath.row];
         
-        dvc.ID = [epiModel1.Id integerValue];
+        dvc.ID = epiModel1.Id ;
         [self.navigationController pushViewController:dvc animated:YES];
     }else
     if (collectionView.tag == 10003) {
         epiDetail * epiModel1 = _wanjieList[indexPath.row];
         
-        dvc.ID = [epiModel1.Id integerValue];
+        dvc.ID = epiModel1.Id ;
         [self.navigationController pushViewController:dvc animated:YES];
     }else
     if (collectionView.tag == 10004) {
         epiDetail * epiModel1 = _yuanchuangList[indexPath.row];
         
-        dvc.ID = [epiModel1.Id integerValue];
+        dvc.ID = epiModel1.Id ;
         [self.navigationController pushViewController:dvc animated:YES];
     }
     

@@ -12,7 +12,7 @@
 
 @property (nonatomic, copy) NSString *comic_id;
 @property (nonatomic, copy) NSString *filesize;
-@property (nonatomic, copy) NSString *ID;
+@property (nonatomic, assign) NSInteger ID;
 @property(nonatomic,strong) UIButton *charpte_btn;
 @property (nonatomic, copy) NSString *updatetime;
 @property (nonatomic, copy) NSString *chapter_order;

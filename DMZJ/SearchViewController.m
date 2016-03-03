@@ -7,15 +7,25 @@
 //
 
 #import "SearchViewController.h"
-//#import "RecommendViewController.h"
-@interface SearchViewController ()
+#import "searchLabModel.h"
+#import "searchResultViewController.h"
 
+//#import "RecommendViewController.h"
+#define search_API(ziduan) @"http://api.dmzj.com/dynamic/comicsearch/(ziduan).json?channel=ios&version=1.1.107"
+@interface SearchViewController ()<UIScrollViewDelegate,UITextFieldDelegate>
+{
+    searchLabModel *slModel;
+    UIScrollView *ScrV;
+    searchResultViewController *srvc;
+    
+}
 @end
 
 @implementation SearchViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self getHttpData];
     // Do any additional setup after loading the view.
     self.navigationController.navigationBarHidden =YES;
     UIView *view =[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 64)];
@@ -38,26 +48,120 @@
     tf.borderStyle =UITextBorderStyleRoundedRect;
     tf.tintColor =[UIColor whiteColor];
     tf.placeholder =@"漫画名/作者";
+    tf.delegate =self;
+    tf.returnKeyType =UIReturnKeySearch;
+//    [tf addTarget:self action:@selector(searchResult) forControlEvents:UIControlEventEditingChanged];
     
-    UIImageView *img =[[UIImageView alloc]initWithFrame:CGRectMake(10, 0, 18, 18)];
+    
+    UIImageView *img =[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, 18, 18)];
     img.image =[UIImage imageNamed:@"recommendBtn6"];
     tf.leftView =img;
     tf.leftViewMode =UITextFieldViewModeAlways;
+    tf.contentMode =UIViewContentModeCenter;
     [view addSubview:tf];
     
     
     
-    UIImageView *searchHot =[[UIImageView alloc]initWithFrame:CGRectMake(-1, 100, self.view.frame.size.width, 402)];
-    searchHot.image =[UIImage imageNamed:@"searchHot"];
+    ScrV =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, self.view.frame.size.width, self.view.frame.size.height)];
+    ScrV.backgroundColor =[UIColor whiteColor];
+    ScrV.contentSize =CGSizeMake(self.view.bounds.size.width, 700+slModel.seaLabData.count/3*30);
+    NSLog(@"~~~~~~%f",ScrV.frame.size.height);
+    NSLog(@"~~~##%F",ScrV.contentSize.height);
+    ScrV.directionalLockEnabled =YES;
+    ScrV.showsVerticalScrollIndicator = NO;
+    ScrV.showsHorizontalScrollIndicator = NO;
+    ScrV.delegate =self;
     
-    [self.view addSubview:searchHot];
+    UILabel *Hotlab =[[UILabel alloc]initWithFrame:CGRectMake(5, 5, 80, 20)];
+    Hotlab.text =@"热门搜索";
+    Hotlab.textAlignment =NSTextAlignmentCenter;
+    Hotlab.textColor =[UIColor grayColor];
+    [ScrV addSubview:Hotlab];
     
-    
-    
-    
+    [self.view addSubview:ScrV];
+
     self.view.backgroundColor =[UIColor whiteColor];
     [self.view addSubview:view];
 }
+
+-(void)searchResult
+{
+
+}
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    srvc =[[searchResultViewController alloc]init];
+    srvc.searchText =textField.text;
+    [self.navigationController pushViewController:srvc animated:YES];
+    return YES;
+    
+}
+
+
+-(void)getHttpData
+{
+    AFHTTPRequestOperationManager *manager =[AFHTTPRequestOperationManager manager];
+    manager.requestSerializer =[AFHTTPRequestSerializer serializer];
+    manager.responseSerializer =[AFHTTPResponseSerializer serializer];
+    
+    [manager GET:@"http://api.dmzj.com/dynamic/comicsearchhot.json?channel=ios&version=1.1.107" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        slModel =[[searchLabModel alloc]mj_setKeyValues:operation.responseString];
+        NSLog(@"%@",slModel);
+        for (int i =0; i<slModel.seaLabData.count; i++) {
+//            NSLog(@"~~~~~%ld",slModel.data.count);
+            UIButton *btn =[UIButton buttonWithType:UIButtonTypeCustom];
+            btn.frame =CGRectMake(10+self.view.frame.size.width/3*(i%3),50+35*(i/3), self.view.frame.size.width/3-20, 30);
+           
+            searchData *sdate =slModel.seaLabData[i];
+            [btn setTitle:[NSString stringWithFormat:@"%@",sdate.name] forState:UIControlStateNormal];
+            btn.tag =sdate.Id;
+            [btn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            [btn addTarget:self action:@selector(searchHotClick:) forControlEvents:UIControlEventTouchUpInside];
+//            btn.backgroundColor =[UIColor colorWithRed:0.276 green:0.733 blue:1.000 alpha:1.000];
+            if(i%4==0)
+            {
+                btn.backgroundColor =[UIColor orangeColor];
+            }
+            if (i%4==1) {
+                btn.backgroundColor =[UIColor blueColor];
+            }
+            if (i%4==2) {
+                btn.backgroundColor =[UIColor redColor];
+            }
+            if (i%4==3) {
+                btn.backgroundColor =[UIColor greenColor];
+            }
+            
+            
+            [btn.titleLabel setTextAlignment:NSTextAlignmentCenter];
+            [btn.titleLabel setFont:[UIFont systemFontOfSize:15]];
+            
+            [ScrV addSubview:btn];
+            
+        }
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        NSLog(@"%@",error);
+    }];
+    
+}
+
+
+
+
+
+
+
+
+-(void)searchHotClick:(UIButton *)sender
+{
+    detailsViewController *dvc =[[detailsViewController alloc]init];
+    dvc.ID =sender.tag;
+    [self.navigationController pushViewController:dvc animated:YES];
+}
+
+
 
 -(void)back
 {

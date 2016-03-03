@@ -12,6 +12,6 @@
 
 @property(nonatomic,assign)NSInteger ID;
 @property(nonatomic,assign)NSInteger COMICID;
-
+@property(nonatomic,copy)NSString *titleName;
 
 @end

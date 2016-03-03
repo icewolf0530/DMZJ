@@ -58,7 +58,7 @@
 {
     UILabel *aboutUsLab =[[UILabel alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
     aboutUsLab.center =self.view.center;
-    aboutUsLab.text =@"狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n狼💗羊,老婆我爱你\n";
+    aboutUsLab.text =@"版本:V1.0.0\n更多功能正在开发中,敬请期待\n开发:小狼\n特别鸣谢:小羊\n友情支持:李文犬,陈蕾子";
     aboutUsLab.textAlignment =NSTextAlignmentCenter;
     aboutUsLab.numberOfLines =0;
     [self.view addSubview:aboutUsLab];

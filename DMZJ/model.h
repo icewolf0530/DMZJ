@@ -26,7 +26,7 @@
 @end
 
 @interface headlines : NSObject
-@property(nonatomic,strong)NSNumber *Id;
+@property(nonatomic,assign)NSInteger Id;
 @property(nonatomic,strong)NSString *cover;
 @property(nonatomic,strong)NSString *title;
 @property(nonatomic,strong)NSString *subtitle;
@@ -35,7 +35,7 @@
 
 
 @interface epiDetail : NSObject
-@property(nonatomic,strong)NSNumber *Id;
+@property(nonatomic,assign)NSInteger Id;
 @property(nonatomic,strong)NSString *cover;
 @property(nonatomic,strong)NSString *title;
 @property(nonatomic,strong)NSString *last_update_chapter_name;

@@ -8,7 +8,7 @@
 
 #import "chooseViewController.h"
 #import "chooseModel.h"
-#define CHOOSE_API @"http://api.dmzj.com/dynamic/comicclassify/update/54/0.json?channel=ios&version=1.1.107"
+#define CHOOSE_API(x) @"http://api.dmzj.com/dynamic/comicclassify/update/(x)/0.json?channel=ios&version=1.1.107"
 @interface chooseViewController ()<UIScrollViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 {
     UILabel *lab;
@@ -20,7 +20,7 @@
     UICollectionView *DMC;
     
 }
-@property (nonatomic,strong)NSMutableArray *List;
+
 @end
 
 @implementation chooseViewController
@@ -58,9 +58,9 @@
     [backBtn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
     [navigationV addSubview:backBtn];
     
-    ScrV =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, 700)];
+    ScrV =[[UIScrollView alloc]initWithFrame:CGRectMake(0, 64, self.view.bounds.size.width, self.view.bounds.size.height-44)];
     ScrV.backgroundColor =[UIColor colorWithWhite:0.927 alpha:1.000];
-    ScrV.contentSize =CGSizeMake(self.view.bounds.size.width*5, 700);
+    ScrV.contentSize =CGSizeMake(self.view.bounds.size.width, self.view.bounds.size.height-44);
     ScrV.bounces =NO;
     ScrV.directionalLockEnabled =YES;
     ScrV.showsVerticalScrollIndicator = NO;
@@ -131,8 +131,7 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {   detailsViewController *dvc =[[detailsViewController alloc]init];
     NSLog(@"%ld",indexPath.row);
-        choosedata * cdata1 = _List[indexPath.row];
-    
+        choosedata * cdata1 = cModel.Arrdata[indexPath.row];
         dvc.ID = cdata1.Id ;
         NSLog(@"recID%ld",cdata1.Id);
         [self.navigationController pushViewController:dvc animated:YES];
@@ -149,14 +148,15 @@
 
 -(void)getHttpDate
 {
-    _List =[NSMutableArray array];
+    
     AFHTTPRequestOperationManager *manager =[AFHTTPRequestOperationManager manager];
     manager.responseSerializer =[AFHTTPResponseSerializer serializer];
     manager.requestSerializer =[AFHTTPRequestSerializer serializer];
     
-    [manager GET:[NSString stringWithFormat:CHOOSE_API] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+    [manager GET:[NSString stringWithFormat:[NSString stringWithFormat:@"http://api.dmzj.com/dynamic/comicclassify/update/%ld/0.json?channel=ios&version=1.1.107",_lei]] parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         cModel=[[chooseModel alloc]mj_setKeyValues:operation.responseString];
-        [_List addObject:cModel.Arrdata];
+//        [_List addObject:cModel.Arrdata];
+//        _List =  cModel.Arrdata;
         [DMC reloadData];
         cdata =cModel.Arrdata[1];
         lab.text =cdata.types;

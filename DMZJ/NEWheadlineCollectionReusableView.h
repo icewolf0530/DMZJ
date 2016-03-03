@@ -10,7 +10,7 @@
 
 @interface NEWheadlineCollectionReusableView : UICollectionReusableView
 
-@property(nonatomic,strong)NSNumber * Id;
+@property(nonatomic,assign)NSInteger Id;
 @property(nonatomic,strong)NSString * title;
 @property(nonatomic,strong)UIImageView * headView;
 @property(nonatomic,strong)UILabel * summary;

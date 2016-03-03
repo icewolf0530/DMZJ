@@ -10,10 +10,10 @@
 
 @interface readModel : NSObject
 
-@property(nonatomic,strong)NSString *Id;
-@property(nonatomic,strong)NSString *comic_id;
-@property(nonatomic,strong)NSString *chapter_name;
-@property(nonatomic,strong)NSString *chapter_order;
+@property(nonatomic,assign)NSInteger Id;
+@property(nonatomic,copy)NSString *comic_id;
+@property(nonatomic,copy)NSString *chapter_name;
+@property(nonatomic,copy)NSString *chapter_order;
 @property(nonatomic,strong)NSArray *page;
 @property(nonatomic,strong)NSArray *size;
 
@@ -22,12 +22,12 @@
 @end
 
 @interface pageModel : NSObject
-@property(nonatomic,strong)NSString *num;
+@property(nonatomic,copy)NSString *num;
 
 @end
 
 @interface sizeModel : NSObject
-@property(nonatomic,strong)NSString *width;
-@property(nonatomic,strong)NSString *heigth;
+@property(nonatomic,assign)NSInteger width;
+@property(nonatomic,assign)NSInteger heigth;
 
 @end

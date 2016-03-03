@@ -19,7 +19,7 @@
         _charpte_btn.frame =CGRectMake(0, 0, super.frame.size.width, 10);
         [_charpte_btn setTitle:@"加载中" forState:UIControlStateNormal];
 //        [_charpte_btn addTarget:self action:@selector(_charpte:) forControlEvents:UIControlEventTouchUpInside];
-        _charpte_btn.backgroundColor =[UIColor blueColor];
+        _charpte_btn.backgroundColor =[UIColor colorWithRed:0.276 green:0.733 blue:1.000 alpha:1.000];
         self.backgroundColor =[UIColor blackColor];
         [self addSubview:_charpte_btn];
         
